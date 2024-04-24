@@ -32,7 +32,15 @@ def add_data():
 		return jsonify({"status": "success", "message": "Data added successfully!"})
 	except Exception as e:
 		return jsonify({"status": "error", "message": str(e)})
-	
+
+@app.route('/add_data', methods=['GET'])
+def status_signal():
+	try:
+		print("Status signal received from device!")
+	except Exception as e:
+		print("Status signal error: " + str(e))
+	return jsonify({"status": "success", "message": "Ping received"})
+
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=50005)
 	

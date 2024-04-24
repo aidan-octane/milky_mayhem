@@ -5,12 +5,12 @@
 const char *ssid = "";
 const char *password = "";
 const char *serverIP = "";
-const int serverPort = 50005;  // Flask server port
+const int serverPort = ;  // Flask server port
 const String endpoint = "/add_data";
 
 const int io_pin = 5;
 bool milk = true;
-
+int counter_for_status_signal = 0;
 int currentValue, previousValue;
 
 void setup() {
@@ -36,6 +36,10 @@ void setup() {
 void loop() {
   // Runs loop program for about 6.5 hours, then restarts
   for (int i = 0; i < 100000; i++) {
+    counter_for_status_signal++;
+    if((counter_for_status_signal % 100) == 0) {
+      triggerStatusSignal();
+    }
     delay(250);
     currentValue = digitalRead(io_pin);
     Serial.println(currentValue);
@@ -50,6 +54,37 @@ void loop() {
     }
   }
   ESP.restart();
+}
+
+void triggerStatusSignal() {
+  // Create an HTTP client object
+  HTTPClient http;
+
+  // Specify the server and port
+  http.begin(serverIP, serverPort, endpoint);
+
+  // Not sure if this is required for GETs
+  http.addHeader("Content-Type", "application/json");
+
+  // Send POST request
+  int httpResponseCode = http.GET();
+
+  // Check the response code
+  if (httpResponseCode > 0) {
+    Serial.print("HTTP Response code: ");
+    Serial.println(httpResponseCode);
+
+    // Print the response payload
+    String payload = http.getString();
+    Serial.println("Response payload: " + payload);
+  } else {
+    Serial.print("HTTP Request failed. Error code: ");
+    Serial.println(httpResponseCode);
+  }
+
+  // Close connection
+  http.end();
+
 }
 
 void triggerMilkGone() {

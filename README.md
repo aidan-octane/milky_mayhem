@@ -1,5 +1,5 @@
 # milky_mayhem
-A system that will psychologically torture my roommate based off of his milk usage.
+This was built as part of a YouTube video.
 
 My roommate drinks milk. Way too much of it. Oftentimes, a gallon in TWO DAYS. That's just criminal.
 He also likes to play tricks on me. He likes to deliver secret messages and little codes. I would call it psychological torture - he's thorough enough to where, every time anybody says something weird to me, my first thought is...did my roommate get them to say that to me as part of some code?
